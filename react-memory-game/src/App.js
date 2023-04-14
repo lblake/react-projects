@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { v4 as uuid } from 'uuid';
 
 import './App.css';
 
@@ -15,13 +14,12 @@ const cardImages = [
 function App() {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
-  const unique_id = uuid();
 
   //shuffle cards
   const shuffleCards = () => {
     const shuffledCards = [...cardImages, ...cardImages]
       .sort(() => Math.random() - 0.5)
-      .map((card) => ({ ...card, id: unique_id }));
+      .map((card) => ({ ...card, id: Math.random(-0.5) }));
 
     setCards(shuffledCards);
     setTurns(0);
@@ -33,6 +31,17 @@ function App() {
     <div className='App'>
       <h1>Magic Match</h1>
       <button onClick={shuffleCards}>New Game</button>
+
+      <div className='card-grid'>
+        {cards.map((card) => (
+          <div className='card' key={card.id}>
+            <div>
+              <img className='front' src={card.src} alt='card front' />
+              <img className='back' src='/img/cover.png' alt='card back' />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
