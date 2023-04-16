@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SingleCard from './components/SingleCard';
 
 import './App.css';
@@ -18,6 +18,19 @@ function App() {
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
 
+  //compare 2 selected cards
+  useEffect(() => {
+    if (choiceOne && choiceTwo) {
+      if (choiceOne.src === choiceTwo.src) {
+        console.log('cards match');
+        resetTurn();
+      } else {
+        console.log('cards do not match');
+        resetTurn();
+      }
+    }
+  }, [choiceOne, choiceTwo]);
+
   //shuffle cards
   const shuffleCards = () => {
     const shuffledCards = [...cardImages, ...cardImages]
@@ -33,8 +46,11 @@ function App() {
     choiceOne ? setChoiceOne(card) : setChoiceTwo(card);
   };
 
-  // reset choices & increate turn
-  const resetTurns = () => {
+  
+
+  console.log(cards, turns)
+  // reset choices & increase turn
+  const resetTurn = () => {
     setChoiceOne(null);
     setChoiceTwo(null);
     setTurns((prevTurns) => prevTurns + 1);
